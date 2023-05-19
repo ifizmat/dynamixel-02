@@ -17,6 +17,7 @@ enum DynXL430Adddress {
   XL430_ADDRESS_ENABLE_TORQUE    = 64,
   XL430_ADDRESS_LED              = 65,
   XL430_ADDRESS_PROFILE_VELOCITY = 112,
+  XL430_ADDRESS_GOAL_POSITION    = 116,
 };
 
 enum DynXL430OperatingMode {
@@ -32,6 +33,7 @@ class DynamixelMotorXL430 : public DynamixelDevice {
     uint8_t operatingModeStatus();
     void operatingMode(DynXL430OperatingMode aMode);
     void profileVelocity(uint32_t aVelocity);
+    void goalPosition(uint32_t aPosition);
     uint8_t id;
 };
 

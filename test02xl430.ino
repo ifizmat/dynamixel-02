@@ -43,7 +43,14 @@ void setup() {
   printData(ID_MOTOR, XL430_ADDRESS_PROFILE_VELOCITY, "Velocity", 4);  
   xl430.profileVelocity(64);
   delay(100);
-  printData(ID_MOTOR, XL430_ADDRESS_PROFILE_VELOCITY, "Velocity", 4);  
+  printData(ID_MOTOR, XL430_ADDRESS_PROFILE_VELOCITY, "Velocity", 4);
+
+  xl430.torqueEnable(true);
+  delay(100);
+  xl430.goalPosition(1024);
+  delay(5000);    
+  xl430.goalPosition(0);
+  delay(5000);    
 }
 
 void loop() {
