@@ -13,7 +13,6 @@
 #define ID_MOTOR 1
 
 
-// DynamixelDevice motor(ID_MOTOR);
 DynamixelMotorXL430 xl430(ID_MOTOR);
 uint8_t status = 0;
 uint8_t idReaded = 0;
@@ -22,51 +21,28 @@ uint8_t baudrateReaded = 0;
 void setup() {
   DxlMaster.begin(57600);
   Serial.begin(9600);
-//  status = motor.init();
+
   status = xl430.init();
-  Serial.println(String("Motor XL430 inti: ") + status);
+  Serial.println(String("Motor XL430 init: ") + status);
 
-/*
-  printData(ID_MOTOR, 7, "ID", 1);
-  motor.write(64, 0);
-  delay(50);  
-
-  printData(ID_MOTOR, 11, "Operating Mode BEFORE", 1);
-  motor.write(11, 3);
-  delay(50);
-  printData(ID_MOTOR, 11, "Operating Mode AFTER", 1);
-  motor.write(64, 1);
-  delay(50);  
-  printData(ID_MOTOR, 64, "Torque Enable", 1);
-  printData(ID_MOTOR, 65, "LED", 1);
-  motor.write(112, uint32_t(32));
-  delay(50);  
-  printData(ID_MOTOR, 112, "Profile Velocity", 4);
-  motor.write(116, uint32_t(2048));
-  delay(50);  
-  printData(ID_MOTOR, 116, "Goal Position", 4);
-*/
-  //baudrateReaded = motor.read(BAUDRATE_ADDRESS);
-  //Serial.println(String("Baud rate: ") + idReaded);
+  Serial.println(String("Motor XL430 torque: ") + xl430.torqueStatus());
+  xl430.torqueEnable(true);
+  delay(100);
+  Serial.println(String("Motor XL430 torque: ") + xl430.torqueStatus());
+  xl430.torqueEnable(false);
+  delay(100);
+  Serial.println(String("Motor XL430 torque: ") + xl430.torqueStatus());
 }
 
 void loop() {
 
-/*  
-  motor.write(65, 0);
-  delay(300);
-  motor.write(65, 1);
-  delay(300);
-*/
-
   xl430.led(1);
-  delay(300);
+  delay(1300);
   xl430.led(0);
-  delay(300);
+  delay(1300);
   
 }
 
-//void printData(const uint8_t *data, uint8_t length)
 void printData(uint8_t idDevice, uint8_t address, String typeRegister, uint8_t length)
 {
   uint8_t *data = new uint8_t[length];
