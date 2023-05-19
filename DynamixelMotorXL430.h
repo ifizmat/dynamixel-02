@@ -13,9 +13,10 @@
 #include <DynamixelDevice.h>
 
 enum DynXL430Adddress {
-  XL430_ADDRESS_OPERATING_MODE = 11,
-  XL430_ADDRESS_ENABLE_TORQUE  = 64,
-  XL430_ADDRESS_LED            = 65,
+  XL430_ADDRESS_OPERATING_MODE   = 11,
+  XL430_ADDRESS_ENABLE_TORQUE    = 64,
+  XL430_ADDRESS_LED              = 65,
+  XL430_ADDRESS_PROFILE_VELOCITY = 112,
 };
 
 enum DynXL430OperatingMode {
@@ -30,6 +31,7 @@ class DynamixelMotorXL430 : public DynamixelDevice {
     void torqueEnable(bool aTorque);
     uint8_t operatingModeStatus();
     void operatingMode(DynXL430OperatingMode aMode);
+    void profileVelocity(uint32_t aVelocity);
     uint8_t id;
 };
 

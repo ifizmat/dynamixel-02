@@ -37,3 +37,7 @@ uint8_t DynamixelMotorXL430::operatingModeStatus() {
 void DynamixelMotorXL430::operatingMode(DynXL430OperatingMode aMode) {
   write(XL430_ADDRESS_OPERATING_MODE, aMode);
 }
+
+void DynamixelMotorXL430::profileVelocity(uint32_t aVelocity) {
+  write(XL430_ADDRESS_PROFILE_VELOCITY, aVelocity);  
+}

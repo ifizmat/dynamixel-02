@@ -38,6 +38,12 @@ void setup() {
   xl430.operatingMode(XL430_POSITION_CONTROL_MODE);
   delay(100);
   Serial.println(String("Motor XL430 Operating Mode: ") + xl430.operatingModeStatus());
+  xl430.profileVelocity(32);
+  delay(100);
+  printData(ID_MOTOR, XL430_ADDRESS_PROFILE_VELOCITY, "Velocity", 4);  
+  xl430.profileVelocity(64);
+  delay(100);
+  printData(ID_MOTOR, XL430_ADDRESS_PROFILE_VELOCITY, "Velocity", 4);  
 }
 
 void loop() {
