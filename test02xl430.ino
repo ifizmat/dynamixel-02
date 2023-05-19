@@ -32,6 +32,12 @@ void setup() {
   xl430.torqueEnable(false);
   delay(100);
   Serial.println(String("Motor XL430 torque: ") + xl430.torqueStatus());
+  xl430.operatingMode(4);
+  delay(100);
+  Serial.println(String("Motor XL430 Operating Mode: ") + xl430.operatingModeStatus());
+  xl430.operatingMode(XL430_POSITION_CONTROL_MODE);
+  delay(100);
+  Serial.println(String("Motor XL430 Operating Mode: ") + xl430.operatingModeStatus());
 }
 
 void loop() {

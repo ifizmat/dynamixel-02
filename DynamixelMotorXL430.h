@@ -1,13 +1,26 @@
+/* Controller by Applied Robotics: AR-IoT-DXL
+ * Servo by Robotis, South Korea: Dynamixel XL430-W250-T
+ * Lib: DxlMaster, Dynamixel Protocol 1.0
+ * Software: 
+ * https://appliedrobotics.ru/?page_id=633
+ * Download DxlMaster_19.04.2019.zip
+ * https://disk.yandex.ru/d/uftscsAynS-pEg
+ */
+ 
 #ifndef DYNAMIXELMOTORXL430_H
 #define DYNAMIXELMOTORXL430_H
 
 #include <DynamixelDevice.h>
 
 enum DynXL430Adddress {
+  XL430_ADDRESS_OPERATING_MODE = 11,
   XL430_ADDRESS_ENABLE_TORQUE  = 64,
   XL430_ADDRESS_LED            = 65,
 };
 
+enum DynXL430OperatingMode {
+  XL430_POSITION_CONTROL_MODE = 3,
+};
 
 class DynamixelMotorXL430 : public DynamixelDevice {
   public:
@@ -15,6 +28,8 @@ class DynamixelMotorXL430 : public DynamixelDevice {
     void led(uint8_t aState);
     bool torqueStatus();
     void torqueEnable(bool aTorque);
+    uint8_t operatingModeStatus();
+    void operatingMode(DynXL430OperatingMode aMode);
     uint8_t id;
 };
 
