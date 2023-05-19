@@ -6,28 +6,12 @@
 #include <DynamixelInterfaceArduinoImpl.h>
 #include <DynamixelMotor.h>
 
+#include "DynamixelMotorXL430.h"
+
 #define ID_ADDRESS 7
 #define BAUDRATE_ADDRESS 8
 #define ID_MOTOR 1
 
-enum DynXL430Adddress {
-  XL430_ADDRESS_LED =65,
-};
-
-
-class DynamixelMotorXL430 : public DynamixelDevice {
-  public:
-    DynamixelMotorXL430(DynamixelID aId);
-    void led(uint8_t aState);
-};
-
-DynamixelMotorXL430::DynamixelMotorXL430(DynamixelID aId) : 
-DynamixelDevice(aId)
-{}
-
-void DynamixelMotorXL430::led(uint8_t aState) {
-  write(XL430_ADDRESS_LED, aState);
-}
 
 // DynamixelDevice motor(ID_MOTOR);
 DynamixelMotorXL430 xl430(ID_MOTOR);
