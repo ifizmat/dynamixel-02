@@ -15,6 +15,7 @@ class DynamixelMotorXL430 : public DynamixelDevice {
     void led(uint8_t aState);
     bool torqueStatus();
     void torqueEnable(bool aTorque);
+    uint8_t id;
 };
 
 #endif
