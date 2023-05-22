@@ -42,6 +42,7 @@ void DynamixelMotorXL430::profileVelocity(uint32_t aVelocity) {
   write(XL430_ADDRESS_PROFILE_VELOCITY, aVelocity);  
 }
 
-void DynamixelMotorXL430::goalPosition(uint32_t aPosition) {
-  write(XL430_ADDRESS_GOAL_POSITION, aPosition);  
+void DynamixelMotorXL430::goalVelocity(uint32_t aVelocity) {
+  write(XL430_ADDRESS_GOAL_VELOCITY, aVelocity);  
 }
+
