@@ -50,7 +50,36 @@ void setup() {
   xl430.goalPosition(1024);
   delay(5000);    
   xl430.goalPosition(0);
-  delay(5000);    
+  delay(5000);
+
+  xl430.torqueEnable(false);
+  delay(100);
+  Serial.println(String("Motor XL430 torque: ") + xl430.torqueStatus());
+
+  Serial.println(String("Motor XL430 Operating Mode: ") + xl430.operatingModeStatus());
+  xl430.operatingMode(XL430_VELOCITY_CONTROL_MODE);
+  delay(100);
+  Serial.println(String("Motor XL430 Operating Mode: ") + xl430.operatingModeStatus());
+
+  xl430.torqueEnable(true);
+  delay(100);
+  Serial.println(String("Motor XL430 torque: ") + xl430.torqueStatus());
+
+  xl430.goalVelocity(32);
+  delay(100);
+  printData(ID_MOTOR, XL430_ADDRESS_GOAL_VELOCITY, "Goal Velocity", 4);  
+  delay(5000);  
+
+  xl430.goalVelocity(64);
+  delay(100);
+  printData(ID_MOTOR, XL430_ADDRESS_GOAL_VELOCITY, "Goal Velocity", 4);  
+  delay(5000);  
+
+  xl430.goalVelocity(0);
+  delay(100);
+  printData(ID_MOTOR, XL430_ADDRESS_GOAL_VELOCITY, "Goal Velocity", 4);  
+  delay(1000);  
+
 }
 
 void loop() {
