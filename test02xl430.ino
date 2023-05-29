@@ -25,6 +25,7 @@ void setup() {
   status = xl430.init();
   Serial.println(String("Motor XL430 init: ") + status);
 
+  Serial.println(String("Is Moving: ") + xl430.isMoving());
   Serial.println(String("Motor XL430 torque: ") + xl430.torqueStatus());
   xl430.torqueEnable(true);
   delay(100);
@@ -45,11 +46,20 @@ void setup() {
   delay(100);
   printData(ID_MOTOR, XL430_ADDRESS_PROFILE_VELOCITY, "Velocity", 4);
 
+  Serial.println(String("Is Moving: ") + xl430.isMoving());
   xl430.torqueEnable(true);
   delay(100);
   xl430.goalPosition(1024);
-  delay(5000);    
+  delay(100);
+  Serial.println(String("Is Moving: ") + xl430.isMoving());
+  uint32_t t1 = millis();
+  while (millis() - t1 < 5000) {
+    Serial.println(String("Is Moving: ") + xl430.isMoving());
+  } 
+  //delay(5000);    
   xl430.goalPosition(0);
+  delay(100);
+  Serial.println(String("Is Moving: ") + xl430.isMoving());
   delay(5000);
 
   xl430.torqueEnable(false);

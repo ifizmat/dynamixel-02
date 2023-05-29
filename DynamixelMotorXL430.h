@@ -21,6 +21,7 @@ enum DynXL430Adddress {
   XL430_ADDRESS_GOAL_VELOCITY    = 104,
   XL430_ADDRESS_PROFILE_VELOCITY = 112,
   XL430_ADDRESS_GOAL_POSITION    = 116,
+  XL430_ADDRESS_MOVING           = 116,
 };
 
 enum DynXL430OperatingMode {
@@ -39,6 +40,8 @@ class DynamixelMotorXL430 : public DynamixelDevice {
     void profileVelocity(uint32_t aVelocity);
     void goalPosition(uint32_t aPosition);
     void goalVelocity(uint32_t aVelocity);
+    //bool isMoving();
+    uint8_t isMoving();
     uint8_t id;
 };
 

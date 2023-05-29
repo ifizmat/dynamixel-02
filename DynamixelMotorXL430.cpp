@@ -50,3 +50,15 @@ void DynamixelMotorXL430::goalVelocity(uint32_t aVelocity) {
   write(XL430_ADDRESS_GOAL_VELOCITY, aVelocity);  
 }
 
+//bool DynamixelMotorXL430::isMoving() {
+uint8_t DynamixelMotorXL430::isMoving() {  
+  const uint8_t dataSize = 1;
+  uint8_t status;
+  uint8_t *data = new uint8_t[dataSize];
+  status = DxlMaster.read(this->id, XL430_ADDRESS_MOVING, dataSize, data);
+  if (DYN_STATUS_OK != status) {
+    return status;
+  }
+  //return ((bool)data[0]?true:false);
+  return data[0];
+}
