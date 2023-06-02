@@ -25,12 +25,40 @@ void setup() {
   status = xl430.init();
   Serial.println(String("Motor XL430 init: ") + status);
 
+  xl430_test1();
+
+}
+
+void loop() {
+
+  xl430.ledOn();
+  delay(1300);
+  xl430.ledOff();
+  delay(1300);
+  
+}
+
+void printData(uint8_t idDevice, uint8_t address, String typeRegister, uint8_t length)
+{
+  uint8_t *data = new uint8_t[length];
+
+  status = DxlMaster.read(idDevice, address, length, data);
+  Serial.println(String("Status ") + typeRegister + ": " + status);
+  for(uint8_t i=0; i<length; ++i)
+  {
+    Serial.print(data[i]);
+    Serial.print(" ");
+  }
+  Serial.print("\n\r");
+}
+
+void xl430_test1() {
   Serial.println(String("Is Moving: ") + xl430.isMoving());
   Serial.println(String("Motor XL430 torque: ") + xl430.torqueStatus());
-  xl430.torqueEnable(true);
+  xl430.torqueOn();
   delay(100);
   Serial.println(String("Motor XL430 torque: ") + xl430.torqueStatus());
-  xl430.torqueEnable(false);
+  xl430.torqueOff();
   delay(100);
   Serial.println(String("Motor XL430 torque: ") + xl430.torqueStatus());
   xl430.operatingMode(4);
@@ -47,7 +75,7 @@ void setup() {
   printData(ID_MOTOR, XL430_ADDRESS_PROFILE_VELOCITY, "Velocity", 4);
 
   Serial.println(String("Is Moving: ") + xl430.isMoving());
-  xl430.torqueEnable(true);
+  xl430.torqueOn();
   delay(100);
   xl430.goalPosition(1024);
   delay(100);
@@ -62,7 +90,7 @@ void setup() {
   Serial.println(String("Is Moving: ") + xl430.isMoving());
   delay(5000);
 
-  xl430.torqueEnable(false);
+  xl430.torqueOff();
   delay(100);
   Serial.println(String("Motor XL430 torque: ") + xl430.torqueStatus());
 
@@ -71,7 +99,7 @@ void setup() {
   delay(100);
   Serial.println(String("Motor XL430 Operating Mode: ") + xl430.operatingModeStatus());
 
-  xl430.torqueEnable(true);
+  xl430.torqueOn();
   delay(100);
   Serial.println(String("Motor XL430 torque: ") + xl430.torqueStatus());
 
@@ -89,28 +117,7 @@ void setup() {
   delay(100);
   printData(ID_MOTOR, XL430_ADDRESS_GOAL_VELOCITY, "Goal Velocity", 4);  
   delay(1000);  
-
-}
-
-void loop() {
-
-  xl430.led(1);
-  delay(1300);
-  xl430.led(0);
-  delay(1300);
-  
-}
-
-void printData(uint8_t idDevice, uint8_t address, String typeRegister, uint8_t length)
-{
-  uint8_t *data = new uint8_t[length];
-
-  status = DxlMaster.read(idDevice, address, length, data);
-  Serial.println(String("Status ") + typeRegister + ": " + status);
-  for(uint8_t i=0; i<length; ++i)
-  {
-    Serial.print(data[i]);
-    Serial.print(" ");
-  }
-  Serial.print("\n\r");
+  xl430.regWrite(XL430_ADDRESS_GOAL_VELOCITY, (uint32_t)128);
+  delay(100);
+  xl430.action();
 }

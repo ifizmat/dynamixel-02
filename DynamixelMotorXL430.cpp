@@ -8,6 +8,14 @@ void DynamixelMotorXL430::led(uint8_t aState) {
   write(XL430_ADDRESS_LED, aState);
 }
 
+void DynamixelMotorXL430::ledOn() {
+  led(1);
+}
+
+void DynamixelMotorXL430::ledOff() {
+  led(0);
+}
+
 bool DynamixelMotorXL430::torqueStatus() {
   const uint8_t dataSize = 1;
   uint8_t status;
@@ -21,6 +29,14 @@ bool DynamixelMotorXL430::torqueStatus() {
 
 void DynamixelMotorXL430::torqueEnable(bool aTorque) {
 	write(XL430_ADDRESS_ENABLE_TORQUE, uint8_t(aTorque?1:0));
+}
+
+void DynamixelMotorXL430::torqueOn() {
+	torqueEnable(true);
+}
+
+void DynamixelMotorXL430::torqueOff() {
+	torqueEnable(false);
 }
 
 uint8_t DynamixelMotorXL430::operatingModeStatus() {
@@ -48,6 +64,14 @@ void DynamixelMotorXL430::goalPosition(uint32_t aPosition) {
 
 void DynamixelMotorXL430::goalVelocity(uint32_t aVelocity) {
   write(XL430_ADDRESS_GOAL_VELOCITY, aVelocity);  
+}
+
+void DynamixelMotorXL430::syncGoalPosition(uint32_t aPosition) {
+  regWrite(XL430_ADDRESS_GOAL_POSITION, aPosition);
+}
+
+void DynamixelMotorXL430::syncGoalVelocity(uint32_t aVelocity) {
+  regWrite(XL430_ADDRESS_GOAL_VELOCITY, aVelocity);
 }
 
 //bool DynamixelMotorXL430::isMoving() {
