@@ -32,28 +32,28 @@ enum DynXL430OperatingMode {
 class DynamixelMotorXL430 : public DynamixelDevice {
   public:
     DynamixelMotorXL430(DynamixelID aId);
-    
-    bool torqueStatus();
+    bool isTorqueOn();
     void torqueOn();
     void torqueOff();
     void ledOn();
     void ledOff();
     uint8_t operatingModeStatus();
-    // void jointMode();
-    // void wheelMode();
-    void operatingMode(DynXL430OperatingMode aMode);
+    void jointMode();
+    void wheelMode();
     void profileVelocity(uint32_t aVelocity);
     void goalPosition(uint32_t aPosition);
     void goalVelocity(uint32_t aVelocity);
     void syncGoalPosition(uint32_t aPosition);
     void syncGoalVelocity(uint32_t aVelocity);
-    //bool isMoving();
-    uint8_t isMoving();
+    bool isMoving();
+    //uint8_t isMoving();
     uint8_t id;
 
   private: 
     void torqueEnable(bool aTorque);
     void led(uint8_t aState);
+    void operatingMode(DynXL430OperatingMode aMode);
+    bool torqueStatus();
 };
 
 #endif

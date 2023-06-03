@@ -27,6 +27,10 @@ bool DynamixelMotorXL430::torqueStatus() {
   return ((bool)data[0]?true:false);
 }
 
+bool DynamixelMotorXL430::isTorqueOn() {
+  return torqueStatus();
+}
+
 void DynamixelMotorXL430::torqueEnable(bool aTorque) {
 	write(XL430_ADDRESS_ENABLE_TORQUE, uint8_t(aTorque?1:0));
 }
@@ -54,6 +58,30 @@ void DynamixelMotorXL430::operatingMode(DynXL430OperatingMode aMode) {
   write(XL430_ADDRESS_OPERATING_MODE, aMode);
 }
 
+void DynamixelMotorXL430::jointMode() {
+  bool isTorqueChanged = false;
+  if (isTorqueOn()) {
+    isTorqueChanged = true;
+    torqueOff();
+  }
+  operatingMode(XL430_POSITION_CONTROL_MODE);
+  if (isTorqueChanged) {
+    torqueOn();
+  }
+}
+
+void DynamixelMotorXL430::wheelMode() {
+  bool isTorqueChanged = false;
+  if (isTorqueOn()) {
+    isTorqueChanged = true;
+    torqueOff();
+  }
+  operatingMode(XL430_VELOCITY_CONTROL_MODE);
+  if (isTorqueChanged) {
+    torqueOn();
+  }
+}
+
 void DynamixelMotorXL430::profileVelocity(uint32_t aVelocity) {
   write(XL430_ADDRESS_PROFILE_VELOCITY, aVelocity);  
 }
@@ -74,15 +102,15 @@ void DynamixelMotorXL430::syncGoalVelocity(uint32_t aVelocity) {
   regWrite(XL430_ADDRESS_GOAL_VELOCITY, aVelocity);
 }
 
-//bool DynamixelMotorXL430::isMoving() {
-uint8_t DynamixelMotorXL430::isMoving() {  
+bool DynamixelMotorXL430::isMoving() {
+//uint8_t DynamixelMotorXL430::isMoving() {  
   const uint8_t dataSize = 1;
   uint8_t status;
   uint8_t *data = new uint8_t[dataSize];
   status = DxlMaster.read(this->id, XL430_ADDRESS_MOVING, dataSize, data);
-  if (DYN_STATUS_OK != status) {
-    return status;
-  }
+  //if (DYN_STATUS_OK != status) {
+  //  return status;
+  //}
   //return ((bool)data[0]?true:false);
   return data[0];
 }
