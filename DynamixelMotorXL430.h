@@ -50,9 +50,9 @@ class DynamixelMotorXL430 : public DynamixelDevice {
     uint8_t id;
 
   private: 
-    void torqueEnable(bool aTorque);
+    void torqueEnable(bool aTorque, uint32_t timeout=100);
     void led(uint8_t aState);
-    void operatingMode(DynXL430OperatingMode aMode);
+    void operatingMode(DynXL430OperatingMode aMode, uint32_t timeout=100);
     bool torqueStatus();
 };
 

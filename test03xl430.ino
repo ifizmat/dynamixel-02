@@ -35,20 +35,16 @@ void setup() {
   status = xl430ForwardRight.init();
   Serial.println(String("Forward Right Motor XL430 init: ") + status);
   
-  xl430ForwardLeft.torqueOff();
+  xl430ForwardLeft.torqueOn();
   delay(100);
   xl430ForwardLeft.jointMode();
-  delay(100);
-  xl430ForwardLeft.torqueOn();
   delay(100);
   xl430ForwardLeft.profileVelocity(velocity);
   delay(100);
 
-  xl430ForwardRight.torqueOff();
+  xl430ForwardRight.torqueOn();
   delay(100);
   xl430ForwardRight.jointMode();
-  delay(100);
-  xl430ForwardRight.torqueOn();
   delay(100);
   xl430ForwardRight.profileVelocity(velocity);
   delay(100);

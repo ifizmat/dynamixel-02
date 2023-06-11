@@ -31,16 +31,17 @@ bool DynamixelMotorXL430::isTorqueOn() {
   return torqueStatus();
 }
 
-void DynamixelMotorXL430::torqueEnable(bool aTorque) {
-	write(XL430_ADDRESS_ENABLE_TORQUE, uint8_t(aTorque?1:0));
+void DynamixelMotorXL430::torqueEnable(bool aTorque, uint32_t timeout=100) {
+  write(XL430_ADDRESS_ENABLE_TORQUE, uint8_t(aTorque?1:0));
+  delay(100);
 }
 
 void DynamixelMotorXL430::torqueOn() {
-	torqueEnable(true);
+  torqueEnable(true);
 }
 
 void DynamixelMotorXL430::torqueOff() {
-	torqueEnable(false);
+  torqueEnable(false);
 }
 
 uint8_t DynamixelMotorXL430::operatingModeStatus() {
@@ -54,8 +55,9 @@ uint8_t DynamixelMotorXL430::operatingModeStatus() {
   return ((uint8_t)data[0]);
 }
 
-void DynamixelMotorXL430::operatingMode(DynXL430OperatingMode aMode) {
+void DynamixelMotorXL430::operatingMode(DynXL430OperatingMode aMode, uint32_t timeout=100) {
   write(XL430_ADDRESS_OPERATING_MODE, aMode);
+  delay(100);
 }
 
 void DynamixelMotorXL430::jointMode() {
