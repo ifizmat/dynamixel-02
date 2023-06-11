@@ -8,57 +8,96 @@
 
 #include "DynamixelMotorXL430.h"
 
-#define ID_ADDRESS 7
-#define BAUDRATE_ADDRESS 8
-#define ID_MOTOR 1
+#define DYN_BAUDRATE 57600
+#define SERIAL_BAUDRATE 9600
+#define ID_MOTOR_FORWARD_LEFT  1
+#define ID_MOTOR_FORWARD_RIGHT 2
+#define NUMBER_WHEELS 2
 
+DynamixelMotorXL430 xl430ForwardLeft(ID_MOTOR_FORWARD_LEFT);
+DynamixelMotorXL430 xl430ForwardRight(ID_MOTOR_FORWARD_RIGHT);
+uint8_t idWheels[NUMBER_WHEELS] = {
+                                    ID_MOTOR_FORWARD_LEFT,
+                                    ID_MOTOR_FORWARD_RIGHT
+                                  };
 
-DynamixelMotorXL430 xl430(ID_MOTOR);
 uint8_t status = 0;
-uint8_t idReaded = 0;
-uint8_t baudrateReaded = 0;
-uint32_t pos = 0;
-uint32_t velocity = 0;
+int32_t pos = 0;
+int32_t velocity = 64;
 
 void setup() {
-  DxlMaster.begin(57600);
-  Serial.begin(9600);
+  DxlMaster.begin(DYN_BAUDRATE);
+  Serial.begin(SERIAL_BAUDRATE);
 
-  status = xl430.init();
-  Serial.println(String("Motor XL430 init: ") + status);
-
-//  xl430_test1();
-//  xl430.torqueOff();
-//  delay(100);
-  xl430.jointMode();
-//  while (!xl430.ping()) {;}
-//  delay(100);
-//  xl430.torqueOn();
-  delay(100);
-  velocity = 32;
-  Serial.println(String("Set velocity: ") + velocity);
-  xl430.profileVelocity(32);
-  delay(100);
-  pos = 4095;
-  Serial.println(String("Set position: ") + pos);
-  xl430.goalPosition(pos);
-  delay(3000);
-  while(xl430.isMoving())
-  {;}
-  pos = 0;
-  Serial.println(String("Set position: ") + pos);
-  xl430.goalPosition(pos);
-  delay(100);
-  while(xl430.isMoving())
-  {;}
+  status = xl430ForwardLeft.init();
+  Serial.println(String("Forward Left Motor XL430 init: ") + status);
   
+  status = xl430ForwardRight.init();
+  Serial.println(String("Forward Right Motor XL430 init: ") + status);
+  
+  xl430ForwardLeft.torqueOff();
+  delay(100);
+  xl430ForwardLeft.jointMode();
+  delay(100);
+  xl430ForwardLeft.torqueOn();
+  delay(100);
+  xl430ForwardLeft.profileVelocity(velocity);
+  delay(100);
+
+  xl430ForwardRight.torqueOff();
+  delay(100);
+  xl430ForwardRight.jointMode();
+  delay(100);
+  xl430ForwardRight.torqueOn();
+  delay(100);
+  xl430ForwardRight.profileVelocity(velocity);
+  delay(100);
+
+
+  pos = 2048;
+  xl430ForwardLeft.syncGoalPosition(pos);
+  delay(100);
+  xl430ForwardRight.syncGoalPosition(pos);
+  delay(100);
+
+  DxlMaster.action(idWheels);
+//  DxlMaster.action(BROADCAST_ID);
+//  DxlMaster.action(ID_MOTOR_FORWARD_LEFT);
+//  DxlMaster.action(ID_MOTOR_FORWARD_RIGHT);
+//  delay(5000);
+  delay(100);
+  while (xl430ForwardLeft.isMoving()) {
+	  ;
+  }
+
+  pos = 0;
+  xl430ForwardLeft.syncGoalPosition(pos);
+  delay(100);
+  xl430ForwardRight.syncGoalPosition(pos);
+  delay(100);
+
+  DxlMaster.action(idWheels);
+//  DxlMaster.action(BROADCAST_ID);
+//  DxlMaster.action(ID_MOTOR_FORWARD_LEFT);
+//  DxlMaster.action(ID_MOTOR_FORWARD_RIGHT);
+//  delay(5000);
+  delay(100);
+  while (xl430ForwardLeft.isMoving()) {
+	  ;
+  }
+
+
 }
 
 void loop() {
-
-  xl430.ledOn();
+  Serial.println("Test loop...");
+  xl430ForwardLeft.ledOn();
+  delay(100);
+  xl430ForwardRight.ledOn();
   delay(1300);
-  xl430.ledOff();
+  xl430ForwardLeft.ledOff();
+  delay(100);
+  xl430ForwardRight.ledOff();
   delay(1300);
   
 }
@@ -75,6 +114,44 @@ void printData(uint8_t idDevice, uint8_t address, String typeRegister, uint8_t l
     Serial.print(" ");
   }
   Serial.print("\n\r");
+}
+/*
+void xl430_test3() {
+//  xl430_test1();
+  xl430.torqueOff();
+  delay(100);
+  xl430.jointMode();
+//  while (!xl430.ping()) {;}
+  delay(100);
+  xl430.torqueOn();
+  delay(100);
+  velocity = 32;
+  Serial.println(String("Set velocity: ") + velocity);
+  xl430.profileVelocity(32);
+  delay(100);
+  pos = 4095;
+  Serial.println(String("Set position: ") + pos);
+  xl430.goalPosition(pos);
+  delay(3000);
+  while(xl430.isMoving())
+  {delay(1);}
+  pos = 0;
+  Serial.println(String("Set position: ") + pos);
+  xl430.goalPosition(pos);
+  delay(100);
+  while(xl430.isMoving())
+  {
+    delay(200);
+	Serial.println("Test while isMoving...");
+  }
+  
+	
+	
+}
+
+void xl430_test2() {
+  // pass	
+	
 }
 
 void xl430_test1() {
@@ -164,3 +241,4 @@ void xl430_test1() {
   xl430.action();
   delay(100);
 }
+*/
